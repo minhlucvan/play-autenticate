@@ -9,6 +9,5 @@
 - login bằng facebook, google...
 - một người dùng nhiều tài khoản (bên thứ 3) để đăng nhập
 
-** vấn đề ở đây  là nó không ăn khớp tẹo nào với phần của anh Tú làm cả, hầu như mình phải viết lại hết :( **
-
+## vấn đề ở đây  là nó không ăn khớp tẹo nào với phần của anh Tú làm cả, hầu như mình phải viết lại hết :(
 >>> mọi người xem qua rồi xem có dùng đc ko hay là tìm cái khác
