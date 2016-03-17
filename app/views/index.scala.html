@@ -1,0 +1,106 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>HawkEye</title>
+    <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/leaflet/leaflet.css")">
+    <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/leaflet-sidebar/L.Control.Sidebar.css ")">
+    <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/easy-button/easy-button.css ")">
+    <link rel="shortcut icon" type="image/png" href="@routes.Assets.versioned("images/favicon.png")">
+    <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/Select2/select2.min.css")">
+    <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/Draw/leaflet.draw.css")">
+    <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/main.css")">
+
+    <script src="@routes.Assets.versioned("javascripts/jquery-1.10.2.min.js")" type="text/javascript"></script>
+		<script src="@routes.Assets.versioned("javascripts/leaflet.js")" type="text/javascript"></script>
+    <script src="@routes.Assets.versioned("javascripts/leaflet-sidebar/L.Control.Sidebar.js ")" type="text/javascript"></script>
+		<script src="@routes.Assets.versioned("javascripts/easy-button/easy-button.js ")" type="text/javascript"></script>
+    <script src="@routes.Assets.versioned("javascripts/d3.min.js ")" type="text/javascript"></script>
+		<script src="@routes.Assets.versioned("javascripts/charts.js ")" type="text/javascript"></script>
+    <script src="@routes.Assets.versioned("javascripts/postalAreas.js ")" type="text/javascript"></script>
+		<script src="@routes.Assets.versioned("javascripts/Select2/select2.min.js ")" type="text/javascript"></script>
+
+    <script src="@routes.Assets.versioned("javascripts/Draw/Leaflet.draw.js ")" type="text/javascript"></script>
+
+		<script src="@routes.Assets.versioned("javascripts/Draw/Toolbar.js")" type="text/javascript"></script>
+    <script src="@routes.Assets.versioned("javascripts/Draw/Tooltip.js")" type="text/javascript"></script>
+
+		<script src="@routes.Assets.versioned("javascripts/Draw/ext/GeometryUtil.js")" type="text/javascript"></script>
+    <script src="@routes.Assets.versioned("javascripts/Draw/ext/LatLngUtil.js")" type="text/javascript"></script>
+		<script src="@routes.Assets.versioned("javascripts/Draw/ext/LineUtil.Intersect.js")" type="text/javascript"></script>
+    <script src="@routes.Assets.versioned("javascripts/Draw/ext/Polygon.Intersect.js")" type="text/javascript"></script>
+		<script src="@routes.Assets.versioned("javascripts/Draw/ext/Polyline.Intersect.js")" type="text/javascript"></script>
+    <script src="@routes.Assets.versioned("javascripts/Draw/ext/TouchEvents.js")" type="text/javascript"></script>
+
+		<script src="@routes.Assets.versioned("javascripts/Draw/draw/DrawToolbar.js")" type="text/javascript"></script>
+    <script src="@routes.Assets.versioned("javascripts/Draw/draw/handler/Draw.Feature.js")" type="text/javascript"></script>
+		<script src="@routes.Assets.versioned("javascripts/Draw/draw/handler/Draw.SimpleShape.js")" type="text/javascript"></script>
+    <script src="@routes.Assets.versioned("javascripts/Draw/draw/handler/Draw.Polyline.js")" type="text/javascript"></script>
+		<script src="@routes.Assets.versioned("javascripts/Draw/draw/handler/Draw.Circle.js")" type="text/javascript"></script>
+    <script src="@routes.Assets.versioned("javascripts/Draw/draw/handler/Draw.Marker.js")" type="text/javascript"></script>
+		<script src="@routes.Assets.versioned("javascripts/Draw/draw/handler/Draw.Polygon.js")" type="text/javascript"></script>
+    <script src="@routes.Assets.versioned("javascripts/Draw/draw/handler/Draw.Rectangle.js")" type="text/javascript"></script>
+
+		<script src="@routes.Assets.versioned("javascripts/Draw/edit/EditToolbar.js")" type="text/javascript"></script>
+    <script src="@routes.Assets.versioned("javascripts/Draw/edit/handler/EditToolbar.Edit.js")" type="text/javascript"></script>
+		<script src="@routes.Assets.versioned("javascripts/Draw/edit/handler/EditToolbar.Delete.js")" type="text/javascript"></script>
+
+    <script src="@routes.Assets.versioned("javascripts/Draw/Control.Draw.js")" type="text/javascript"></script>
+
+		<script src="@routes.Assets.versioned("javascripts/Draw/edit/handler/Edit.Poly.js")" type="text/javascript"></script>
+    <script src="@routes.Assets.versioned("javascripts/Draw/edit/handler/Edit.SimpleShape.js")" type="text/javascript"></script>
+		<script src="@routes.Assets.versioned("javascripts/Draw/edit/handler/Edit.Circle.js")" type="text/javascript"></script>
+    <script src="@routes.Assets.versioned("javascripts/Draw/edit/handler/Edit.Rectangle.js")" type="text/javascript"></script>
+		<script src="@routes.Assets.versioned("javascripts/Draw/edit/handler/Edit.Marker.js")" type="text/javascript"></script>
+
+    <script src="@routes.Assets.versioned("javascripts/main.js")" type="text/javascript"></script>
+
+	</head>
+    <body>
+
+		<div id="filandMap"></div>
+			<div id="sidebar-left">
+			<div id="agepie"></div>
+			<div id="edulevel"></div>
+		</div>
+
+		<div style="display: none;" id="filterMap">
+			<div id="containerFilter">
+				<select class="postcodeSelect">
+				</select>
+			</div>
+		</div>
+		<div id="sidebar-right">
+			<h2>Filter data</h2>
+			<div id="containerFilter">
+				<select class="postcodeSelect">
+				</select>
+			</div>
+		</div>
+		<script type="text/javascript">
+			var optionsMap={
+					weightLayer:1,
+					opacityLayer:1,
+					dashArrayLayer:'3',
+					fillOpacityLayer:0.5,
+					boderColorLayer:'#72BCD2',
+					fillColorLayer:'#FBD5A4',
+					weightSelectLayer:3,
+					boderColorSelectLayer:'#F1C40F',
+					fillColorSelectLayer:'#F1C40F',
+					dashArraySelectLayer:''
+			};
+
+			$.ajax({
+				url:"/map",
+				type: 'GET',
+				dataType: 'json',
+				success: function(response, textStatus)
+				{
+					initMapChart(response,'filandMap','#agepie','#edulevel',".postcodeSelect",optionsMap);
+				}
+			});
+
+		</script>
+    </body>
+</html>
