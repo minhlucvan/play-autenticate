@@ -83,9 +83,5 @@ public class Global extends GlobalSettings {
 				role.save();
 			}
 		}
-
-		if((AreaMap == 0) || (0 == 0)){
-			AreaServices.importData();
-		}
 	}
 }
