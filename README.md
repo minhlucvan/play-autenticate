@@ -1,7 +1,7 @@
 
 # play-autenticate
 
->>> đây là app em build để teest  thư viện play-authenticate
+> đây là app em build để teest  thư viện play-authenticate
 
 ## em thấy cũng khá đầy đủ về chức năng
 - verify qua email
